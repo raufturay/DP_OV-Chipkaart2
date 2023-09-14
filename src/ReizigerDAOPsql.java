@@ -9,10 +9,12 @@ import java.sql.ResultSet;
 public class ReizigerDAOPsql implements  ReizigerDAO {
 
     private Connection conn;
+    private AdresDAO adresdao;
 
 
-   public  ReizigerDAOPsql(Connection connection){
+   public  ReizigerDAOPsql(Connection connection, AdresDAO adao){
     conn = connection;
+    adresdao = adao;
    }
     @Override
     public Boolean save(Reiziger reiziger)throws SQLException {
@@ -31,7 +33,9 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
 
         int rowsAffected = preparedStatement.executeUpdate();
 
+
         // Check if the insertion was successful
+        adresdao.save(reiziger.getAdres(), reiziger.getId());
       return rowsAffected > 0;
 
 
@@ -53,8 +57,10 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
         preparedStatement.setDate(4, new java.sql.Date(reiziger.getGeboortedatum().getTime()));
         preparedStatement.setInt(5, reiziger.getId());
 
+
         // Execute the UPDATE query
         int rowsAffected = preparedStatement.executeUpdate();
+        adresdao.update(reiziger.getAdres());
 
         // Check if the update was successful
         return rowsAffected > 0;
@@ -62,12 +68,16 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
 
     @Override
     public Boolean delete(Reiziger reiziger) throws SQLException {
+        adresdao.delete(reiziger.getAdres());
         String deletequery =
                 "DELETE FROM reiziger WHERE reiziger_id = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(deletequery);
+
         preparedStatement.setInt(1, reiziger.getId());
         int rowsAffected = preparedStatement.executeUpdate();
+        ;
         return rowsAffected > 0;
+
     }
 
     @Override
@@ -85,12 +95,13 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
 
         if (resultSet.next()) {
             // Create a Reiziger object from the retrieved data
-            Reiziger reiziger = new Reiziger(0, null, null, null,null);
+            Reiziger reiziger = new Reiziger(0, null, null, null,null,null);
             reiziger.setId(resultSet.getInt("reiziger_id"));
             reiziger.setVoorletters(resultSet.getString("voorletters"));
             reiziger.setTussenvoegsel(resultSet.getString("tussenvoegsel"));
             reiziger.setAchternaam(resultSet.getString("achternaam"));
             reiziger.setGeboortedatum(resultSet.getDate("geboortedatum"));
+            reiziger.setAdres(adresdao.FindbyReiziger(reiziger));
 
             return reiziger;
         } else {
@@ -115,14 +126,14 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
 
         while (resultSet.next()) {
             // Create a Reiziger object for each row of retrieved data
-            Reiziger reiziger = new Reiziger(0, null, null, null,null);
+            Reiziger reiziger = new Reiziger(0, null, null, null,null,null);
 
             reiziger.setId(resultSet.getInt("id"));
             reiziger.setVoorletters(resultSet.getString("voorletters"));
             reiziger.setTussenvoegsel(resultSet.getString("tussenvoegsel"));
             reiziger.setAchternaam(resultSet.getString("achternaam"));
             reiziger.setGeboortedatum(resultSet.getDate("geboortedatum"));
-
+            reiziger.setAdres(adresdao.FindbyReiziger(reiziger));
             reizigers.add(reiziger);
         }
 
@@ -143,13 +154,14 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
 
         while (resultSet.next()) {
             // Create a Reiziger object for each row of retrieved data
-            Reiziger reiziger = new Reiziger(0, null, null, null,null);
+            Reiziger reiziger = new Reiziger(0, null, null, null,null,null);
 
             reiziger.setId(resultSet.getInt("reiziger_id"));
             reiziger.setVoorletters(resultSet.getString("voorletters"));
             reiziger.setTussenvoegsel(resultSet.getString("tussenvoegsel"));
             reiziger.setAchternaam(resultSet.getString("achternaam"));
             reiziger.setGeboortedatum(resultSet.getDate("geboortedatum"));
+            reiziger.setAdres(adresdao.FindbyReiziger(reiziger));
 
             reizigers.add(reiziger);
         }
