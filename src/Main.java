@@ -97,7 +97,7 @@ public class Main {
         rdao.save(reiziger);
 
         // Test FindbyReiziger
-        Adres foundAdres = adao.FindbyReiziger(reiziger);
+        Adres foundAdres = adao.findbyReiziger(reiziger);
 
         if (foundAdres != null) {
             System.out.println("Adres gevonden voor reiziger " + reiziger.getNaam() + ": " + foundAdres.toString());

@@ -10,7 +10,7 @@ public interface AdresDAO {
 
         public  Boolean delete(Adres adres) throws SQLException;
 
-        public Adres FindbyReiziger(Reiziger reiziger)throws SQLException;
+        public Adres findbyReiziger(Reiziger reiziger)throws SQLException;
         public List<Adres> findAll()throws SQLException;
     }
 

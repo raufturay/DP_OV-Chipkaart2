@@ -81,7 +81,7 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
     }
 
     @Override
-    public Reiziger Findbyid(int id) throws SQLException {
+    public Reiziger findbyid(int id) throws SQLException {
         String selectQuery = "SELECT * FROM reiziger WHERE reiziger_id = ?";
 
         // Create a PreparedStatement to fetch data by id
@@ -101,7 +101,7 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
             reiziger.setTussenvoegsel(resultSet.getString("tussenvoegsel"));
             reiziger.setAchternaam(resultSet.getString("achternaam"));
             reiziger.setGeboortedatum(resultSet.getDate("geboortedatum"));
-            reiziger.setAdres(adresdao.FindbyReiziger(reiziger));
+            reiziger.setAdres(adresdao.findbyReiziger(reiziger));
 
             return reiziger;
         } else {
@@ -110,7 +110,7 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
     }
 
     @Override
-    public List<Reiziger> FindbyGBdatum(String datum) throws SQLException {
+    public List<Reiziger> findbyGBdatum(String datum) throws SQLException {
         String selectQuery = "SELECT * FROM Reiziger WHERE geboortedatum = ?";
 
         // Create a PreparedStatement to fetch data by geboortedatum
@@ -133,7 +133,7 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
             reiziger.setTussenvoegsel(resultSet.getString("tussenvoegsel"));
             reiziger.setAchternaam(resultSet.getString("achternaam"));
             reiziger.setGeboortedatum(resultSet.getDate("geboortedatum"));
-            reiziger.setAdres(adresdao.FindbyReiziger(reiziger));
+            reiziger.setAdres(adresdao.findbyReiziger(reiziger));
             reizigers.add(reiziger);
         }
 
@@ -161,7 +161,7 @@ public class ReizigerDAOPsql implements  ReizigerDAO {
             reiziger.setTussenvoegsel(resultSet.getString("tussenvoegsel"));
             reiziger.setAchternaam(resultSet.getString("achternaam"));
             reiziger.setGeboortedatum(resultSet.getDate("geboortedatum"));
-            reiziger.setAdres(adresdao.FindbyReiziger(reiziger));
+            reiziger.setAdres(adresdao.findbyReiziger(reiziger));
 
             reizigers.add(reiziger);
         }

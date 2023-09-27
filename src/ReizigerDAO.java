@@ -9,7 +9,7 @@ public interface ReizigerDAO {
 
     public  Boolean delete(Reiziger reiziger) throws SQLException;
 
-    public Reiziger Findbyid(int id)throws SQLException;
-    public List<Reiziger> FindbyGBdatum(String datum)throws SQLException;
+    public Reiziger findbyid(int id)throws SQLException;
+    public List<Reiziger> findbyGBdatum(String datum)throws SQLException;
     public List<Reiziger> findAll()throws SQLException;
 }
