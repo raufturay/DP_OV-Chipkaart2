@@ -10,22 +10,22 @@ public class OVChipkaart {
 
     private double saldo;
 
-    private Reiziger reiziger;
+    private int  reizigerid;
 
-    private List<Product> producten = new ArrayList<Product>();
+    private List<Integer> productenids = new ArrayList<Integer>();
 
 
-    public OVChipkaart(int kn,Date gtot,int k,double s,Reiziger r){
+    public OVChipkaart(int kn, Date gtot, int k, double s, int r){
         kaartnummer = kn;
         geldig_tot = gtot;
         klasse = k;
         saldo = s;
-        reiziger = r;
+        reizigerid = r;
 
     }
 
-    public List<Product> getProducten() {
-        return producten;
+    public List<Integer> getProductenids() {
+        return productenids;
     }
 
     public double getSaldo() {
@@ -44,8 +44,8 @@ public class OVChipkaart {
         return klasse;
     }
 
-    public Reiziger getReiziger() {
-        return reiziger;
+    public int getReizigerID() {
+        return reizigerid;
     }
 
     public void setKaartnummer(int kaartnummer) {
@@ -60,11 +60,8 @@ public class OVChipkaart {
         this.klasse = klasse;
     }
 
-    public void setReiziger(Reiziger reiziger) {
-        this.reiziger = reiziger;
-        if (!reiziger.getKaarten().contains(this)) {
-            reiziger.getKaarten().add(this);
-        }
+    public void setReizigerid(int reizigerid) {
+        this.reizigerid = reizigerid;
     }
 
     public void setSaldo(double saldo) {

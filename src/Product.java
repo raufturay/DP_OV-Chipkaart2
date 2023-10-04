@@ -11,7 +11,7 @@ public class Product {
 
     private double prijs;
 
-    private List<OVChipkaart> kaarten = new ArrayList<OVChipkaart>();
+    private List<Integer> kaartenids = new ArrayList<Integer>();
 
     public Product(int pn, String nm, String bes, double pr){
         productnummer = pn;
@@ -20,8 +20,8 @@ public class Product {
         prijs = pr;
     }
 
-    public List<OVChipkaart> getKaarten() {
-        return kaarten;
+    public List<Integer> getKaartenids() {
+        return kaartenids;
     }
 
     public int getProductnummer() {
@@ -62,7 +62,7 @@ public class Product {
                 ", naam='" + naam + '\'' +
                 ", beschrijving='" + beschrijving + '\'' +
                 ", prijs=" + prijs +
-                ", kaarten=" + kaarten +
+                ", kaarten=" + kaartenids +
                 '}';
     }
 }

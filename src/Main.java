@@ -126,7 +126,7 @@ public class Main {
         Reiziger reiziger = new Reiziger(99, "g", "", "anja", java.sql.Date.valueOf(gbdatum),adres);
         rdao.save(reiziger);
 
-        OVChipkaart ovChipkaart = new OVChipkaart(1239458, new Date(System.currentTimeMillis()), 1, 10.0, reiziger);
+        OVChipkaart ovChipkaart = new OVChipkaart(1239458, new Date(System.currentTimeMillis()), 1, 10.0, reiziger.getId());
         System.out.println("[Test] Aangemaakt OVChipkaart met Reiziger ID: " + reiziger.getId());
 
         reiziger.getKaarten().add(ovChipkaart);
@@ -159,19 +159,18 @@ public class Main {
         Reiziger reiziger = new Reiziger(99, "g", "", "anja", java.sql.Date.valueOf(gbdatum),adres);
 
 
-        OVChipkaart ovChipkaart = new OVChipkaart(1239458, new Date(System.currentTimeMillis()), 1, 10.0, reiziger);
+        OVChipkaart ovChipkaart = new OVChipkaart(1239458, new Date(System.currentTimeMillis()), 1, 10.0, reiziger.getId());
         Product product = new Product(9,"student","weekdagen",20.0);
 
         productDAO.save(product);
 
         product.setPrijs(30.0);
         productDAO.update(product);
-        ovChipkaart.getProducten().add(product);
+        ovChipkaart.getProductenids().add(product.getProductnummer());
         for (Product pr : productDAO.findAll()) {
             System.out.println(pr.toString());
         }
         productDAO.delete(product);
-        ovChipkaart.getProducten().remove(product);
 
     }
 }

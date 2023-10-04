@@ -24,15 +24,6 @@ public class Reiziger {
     public List<OVChipkaart> getKaarten() {
         return kaarten;
     }
-    public void addOvchipkaart(OVChipkaart ov) {
-        kaarten.add(ov);
-        ov.setReiziger(this);
-    }
-
-    public void removeTreinkaart(OVChipkaart ov) {
-        kaarten.remove(ov);
-        ov.setReiziger(null);
-    }
 
 
 

@@ -26,13 +26,13 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
         while (resultSet.next()) {
             // Create a Reiziger object for each row of retrieved data
-            OVChipkaart ov = new OVChipkaart(0, null, 0, 0.0, null);
+            OVChipkaart ov = new OVChipkaart(0, null, 0, 0.0, 0);
 
             ov.setKaartnummer(resultSet.getInt("kaart_nummer"));
             ov.setGeldig_tot(resultSet.getDate("geldig_tot"));
             ov.setKlasse(resultSet.getInt("klasse"));
             ov.setSaldo(resultSet.getDouble("saldo"));
-            ov.setReiziger(reiziger);
+            ov.setReizigerid(reiziger.getId());
             kaarten.add(ov);
             return kaarten;
         }
@@ -51,7 +51,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
         preparedStatement.setDate(2, (Date) ov.getGeldig_tot());
         preparedStatement.setInt(3, ov.getKlasse());
         preparedStatement.setDouble(4, ov.getSaldo());
-        preparedStatement.setInt(5, ov.getReiziger().getId());
+        preparedStatement.setInt(5, ov.getReizigerID());
 
 
         int rowsAffected = preparedStatement.executeUpdate();
