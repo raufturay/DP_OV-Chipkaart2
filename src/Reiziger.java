@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Reiziger {
     private int id;
@@ -8,6 +10,8 @@ public class Reiziger {
     private Date geboortedatum;
     private Adres adres;
 
+    private List<OVChipkaart> kaarten  = new ArrayList<OVChipkaart>();
+
     public Reiziger(int code,String vl,String tv,String an,Date gd,Adres adr){
         id = code;
         voorletters = vl;
@@ -16,6 +20,21 @@ public class Reiziger {
         geboortedatum = gd;
         adres = adr;
     }
+
+    public List<OVChipkaart> getKaarten() {
+        return kaarten;
+    }
+    public void addOvchipkaart(OVChipkaart ov) {
+        kaarten.add(ov);
+        ov.setReiziger(this);
+    }
+
+    public void removeTreinkaart(OVChipkaart ov) {
+        kaarten.remove(ov);
+        ov.setReiziger(null);
+    }
+
+
 
     public int getId() {
         return id;

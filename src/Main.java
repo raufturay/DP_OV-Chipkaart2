@@ -38,9 +38,17 @@ public class Main {
 
     ReizigerDAOPsql rdao = new ReizigerDAOPsql(getConnection(),adao);
 
+    OVChipkaartDAOPsql odao = new OVChipkaartDAOPsql(getConnection());
+
+    ProductDAOPsql pdao = new ProductDAOPsql(getConnection());
+
+    OVProductDAOPsql ovpdao = new OVProductDAOPsql(getConnection(),pdao);
+
 
     testReizigerDAO(rdao);
     testADAO(adao,rdao);
+    testOVChipkaart(odao,rdao);
+    testProduct(ovpdao,pdao,odao,rdao);
 
 }
     private static void testReizigerDAO(ReizigerDAO rdao) throws SQLException {
@@ -108,5 +116,62 @@ public class Main {
         // Clean up by deleting the Reiziger
         rdao.delete(reiziger);
     }
+    private static void testOVChipkaart(OVChipkaartDAO odao,ReizigerDAO rdao) throws SQLException {
+        System.out.println("\nOVCHIPKAART TEST");
+
+
+        // Maak een nieuwe reiziger aan en persisteer deze in de database
+        String gbdatum = "1981-03-14";
+        Adres adres = new Adres(78, "1234AB", "1", "Straatnaam", "Woonplaats");
+        Reiziger reiziger = new Reiziger(99, "g", "", "anja", java.sql.Date.valueOf(gbdatum),adres);
+        rdao.save(reiziger);
+
+        OVChipkaart ovChipkaart = new OVChipkaart(1239458, new Date(System.currentTimeMillis()), 1, 10.0, reiziger);
+        System.out.println("[Test] Aangemaakt OVChipkaart met Reiziger ID: " + reiziger.getId());
+
+        reiziger.getKaarten().add(ovChipkaart);
+
+        System.out.println(reiziger);
+
+        odao.save(ovChipkaart);
+
+        List<OVChipkaart> ovsReiziger = odao.findbyreiziger(reiziger);
+
+        System.out.println("[Test] OVChipkaarten van de reiziger:");
+        for (OVChipkaart ov : ovsReiziger) {
+            System.out.println(ov);
+            reiziger.getKaarten().remove(ov); // Verwijder de OV-chipkaart uit de lijst
+        }
+
+        // Verwijder de OV-chipkaarten van de reiziger
+        for (OVChipkaart ov : ovsReiziger) {
+            odao.delete(ov);
+        }
+
+        // Verwijder de testreiziger om de database  te herstellen
+        rdao.delete(reiziger);
+    }
+    private static void testProduct(OVProductDAO ovProductDAO, ProductDAO productDAO,OVChipkaartDAO ovDAO,ReizigerDAO rDAO) throws SQLException {
+        System.out.println("\nPRODUCT TEST");
+        String gbdatum = "1981-03-14";
+
+        Adres adres = new Adres(78, "1234AB", "1", "Straatnaam", "Woonplaats");
+        Reiziger reiziger = new Reiziger(99, "g", "", "anja", java.sql.Date.valueOf(gbdatum),adres);
+
+
+        OVChipkaart ovChipkaart = new OVChipkaart(1239458, new Date(System.currentTimeMillis()), 1, 10.0, reiziger);
+        Product product = new Product(9,"student","weekdagen",20.0);
+
+        productDAO.save(product);
+
+        product.setPrijs(30.0);
+        productDAO.update(product);
+        ovChipkaart.getProducten().add(product);
+        for (Product pr : productDAO.findAll()) {
+            System.out.println(pr.toString());
+        }
+        productDAO.delete(product);
+        ovChipkaart.getProducten().remove(product);
 
     }
+}
